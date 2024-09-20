@@ -61,7 +61,7 @@ export class KakaoShareClient {
         this.sharerClient.setCookies(cookies);
     }
 
-    sendLink(room: string, template: Template, type: SendType = 'default'): PromiseLike<ResponseWrapper> {
+    sendLink(roomId: string, template: Template, type: SendType = 'default'): PromiseLike<ResponseWrapper> {
         return new PromiseLike<ResponseWrapper>((resolve, reject) => {
             if (!this.isInited) {
                 reject('KakaoShareClient is not initialized');
@@ -102,10 +102,10 @@ export class KakaoShareClient {
 
             const serverData = JSON.parse(Base64.decode(serverDataMatched[1])) as ServerData;
 
-            let channelData = serverData.data.chats.find(e => e.title === room);
+            let channelData = serverData.data.chats.find(e => e.id === roomId);
 
             if (!channelData) {
-                reject(`Room "${room}" doesn't exist, please check again`);
+                reject(`Room "${roomId}" doesn't exist, please check again`);
                 return;
             }
 
